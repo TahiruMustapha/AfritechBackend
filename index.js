@@ -1,23 +1,28 @@
 const express = require("express");
 require("dotenv").config();
-const mongoose  = require("mongoose");
+const mongoose = require("mongoose");
 const authRoutes = require("./src/routes/auth");
 const registerCourseRoutes = require("./src/routes/courseRegistration");
 const app = express();
 const cors = require("cors");
+const contactRoute = require("./src/routes/contactRoute");
 
 app.use(express.json());
 app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/courseRegistration", registerCourseRoutes);
+app.use("/api/contact", contactRoute);
 // CONNECT TO DATABASE
-mongoose.connect(process.env.MONGO_URI).then(() => {
-  console.log("Database connected");
-}).catch((err) => {
-  console.log("Error connecting to database",err);
-})
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("Database connected");
+  })
+  .catch((err) => {
+    console.log("Error connecting to database", err);
+  });
 
-const PORT  = 5001;
+const PORT = 5001;
 app.listen(PORT, () => {
   console.log("Server is running on port 5001");
 });
